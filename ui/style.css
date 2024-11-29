@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 30px;
+}
+
+#input-section {
+    text-align: center;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+#searchKeyword {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    outline: none;
+}
+
+#analyzeButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+#analyzeButton:hover {
+    background-color: #0056b3;
+}
+
+canvas {
+    max-width: 600px;
+    margin: 30px auto;
+    display: block;
+}

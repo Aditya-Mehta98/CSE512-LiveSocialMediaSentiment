@@ -1,0 +1,5 @@
+cluster.name: es-cluster
+node.name: node2
+discovery.seed_hosts: ["elasticsearch-node1"]
+cluster.initial_master_nodes: ["node1", "node2"]
+xpack.security.enabled: false

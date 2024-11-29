@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live YouTube Sentiment Analysis</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Live YouTube Sentiment Dashboard</h1>
+    
+    <!-- Input Box for the Keyword -->
+    <div>
+        <input type="text" id="searchKeyword" placeholder="Enter a topic, e.g., US Election results 2024">
+        <button id="analyzeButton">Analyze Sentiment</button>
+    </div>
+    
+    <!-- Chart to Display the Sentiment -->
+    <div>
+        <canvas id="sentimentChart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

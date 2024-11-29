@@ -1,0 +1,74 @@
+networks:
+  esnet:
+    driver: bridge
+
+services:
+  elasticsearch-node1:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.16.0
+    container_name: elasticsearch_node1
+    environment:
+      - cluster.name=es-cluster
+      - node.name=node1
+      - xpack.security.enabled=false
+    volumes:
+      - ./config/elasticsearch_node1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./data/elasticsearch_node1:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - esnet
+
+  elasticsearch-node2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.16.0
+    container_name: elasticsearch_node2
+    environment:
+      - cluster.name=es-cluster
+      - node.name=node2
+      - xpack.security.enabled=false
+    volumes:
+      - ./config/elasticsearch_node2.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./data/elasticsearch_node2:/usr/share/elasticsearch/data
+    ports:
+      - "9201:9200"
+    depends_on:
+      - elasticsearch-node1
+    networks:
+      - esnet
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.16.0
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch-node1:9200
+    depends_on:
+      - elasticsearch-node1
+      - elasticsearch-node2
+    networks:
+      - esnet
+
+  haproxy:
+    image: haproxy:alpine
+    container_name: haproxy
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    depends_on:
+      - elasticsearch-node1
+      - elasticsearch-node2
+    networks:
+      - esnet
+
+  python_ingest:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sentiment_ingest
+    ports:
+      - "5001:5000"
+    depends_on:
+      - haproxy
+    networks:
+      - esnet
